@@ -34,7 +34,7 @@ ridership_data <- ridership_data %>%
   mutate(Senior = if_else(Type == "Senior", 1, 0)) %>%
   mutate(Disabled = if_else(Type == "Disabled", 1, 0)) %>%
   mutate(Brown_RISD = if_else(College == "Brown" | College ==  "RISD", 1, 0))  %>%
-  mutate(Other_College = if_else(College == "None" | College != "Brown" | 
+  mutate(Other_College = if_else(College != "None" | College != "Brown" | 
                                    College != "RISD", 1, 0)) %>%
   mutate(High_School = if_else(High.School != "None", 1, 0))
 
@@ -42,6 +42,8 @@ ridership_data <- subset(ridership_data, select = c(Time, Day.of.Week, Route,
                                                     Low.Income, Child, Senior, 
                                                     Disabled, Brown_RISD, 
                                                     Other_College, High_School))
+
+# visualize percentage of overall riders who fit categories
 
 
 
