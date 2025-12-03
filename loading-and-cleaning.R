@@ -7,6 +7,7 @@ library(ggplot2)
 ridership_data <- read.csv("~/Desktop/PHP1560/final.data/ridership_simulated.csv")
 otp_data <- read.csv("~/Desktop/PHP1560/final.data/otp_simulated (2).csv")
 
+
 # arranging in order of routes
 otp_data <- otp_data %>% 
   arrange(Route) 
