@@ -55,7 +55,7 @@ plot_data <- for_vis_ridership %>%
   group_by(Demographics) %>%
   summarize(yes_rate = mean(Yes_or_No == 1))
 
-ggplot(plot_data) +
+plot <- ggplot(plot_data) +
   geom_col(aes(x = Demographics, y = yes_rate), fill = "#FFB3FF") +
   theme_minimal() +
   labs(title = "Demographic Breakdown of RIPTA Riders", x = " ", y = 
@@ -66,3 +66,7 @@ ggplot(plot_data) +
   theme(axis.text.x = element_text(angle = 60, hjust = 1), fill) +
   scale_y_continuous(labels = c("0", "5%", "10%", "15%"),
                      breaks = c(0.0, 0.05, 0.1, 0.15)) 
+
+ggsave("demographic_ridership.png", plot = plot, width = 6, height = 4, 
+       dpi = 300)
+
