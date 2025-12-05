@@ -9,19 +9,19 @@ otp_data <- read.csv("~/Desktop/PHP1560/final.data/otp_simulated (2).csv")
 
 
 # arranging in order of routes
-otp_data <- otp_data %>% 
+otp_data_updated <- otp_data %>% 
   arrange(Route) 
 
 # filtering so that we only include routes that are in both datasets
 ridership_data <- ridership_data %>%
-  filter(Route %in% unique(otp_data$Route))
+  filter(Route %in% unique(otp_data_updated$Route))
 
 # checking to make sure filtering worked!
-unique(otp_data$Route)
+unique(otp_data_updated$Route)
 unique(ridership_data$Route)
 
 # mutating OTP data to only include needed variables 
-otp_data <- subset(otp_data, select = - c(Driver.ID, Trip, Stop, Stop.Sequence, 
+otp_data_updated <- subset(otp_data, select = - c(Driver.ID, Trip, Stop, Stop.Sequence, 
                                           StopLat, StopLng)) 
 
 # mutating ridership data to only include needed variables 
