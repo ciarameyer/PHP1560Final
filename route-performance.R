@@ -9,7 +9,7 @@
 #' @return a dataframe with a column for each route number and the share of 
 #' trips that were on time, late, or early
 
-route_performance <- function(data = otp_data){
+route_performance <- function(data = otp_data_updated){
   
   data <- data %>%
     mutate(OnTime = case_when(Delay.Sec <= -60 ~ "Early",
@@ -27,5 +27,5 @@ route_performance <- function(data = otp_data){
               
 }
 
-otp_data_results <- route_performance(otp_data)
+otp_data_results <- route_performance(otp_data_updated)
   
