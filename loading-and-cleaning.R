@@ -69,4 +69,3 @@ plot <- ggplot(plot_data) +
 
 ggsave("demographic_ridership.png", plot = plot, width = 6, height = 4, 
        dpi = 300)
-
