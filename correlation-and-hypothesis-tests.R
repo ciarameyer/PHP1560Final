@@ -1,12 +1,12 @@
 # Step 6: Correlation and hypothesis tests
 
-correlations <- function(merged_data, threshold = 0.6){
+correlations <- function(df, threshold = 0.6, use = "everything"){
   # results data frame
   res <- data.frame(name1 = vector("character"),
                     name2 = vector("character"),
                     cor = vector("numeric"))
   # find correlations 
-  cor_mat <- cor.test(merged_data)
+  cor_mat <- cor.test(df, use = use)
   
   # find pairs with high correlations 
   n <- nrow(cor_mat)
@@ -23,16 +23,19 @@ correlations <- function(merged_data, threshold = 0.6){
   return(res)
 }
 
-correlation_data <- correlations(merged_data)
+correlation_data_peak <- correlations(df = merged_data_peak, threshold = 0.6, 
+                                      use = "everything")
+correlation_data_off_peak <- correlations(df = merged_data_off_peak,
+                                          threshold = 0.6, use = "everything")
 
-t_tests <- function(merged_data, threshold = 0.05){
+t_tests <- function(df, threshold = 0.05, use = "everything"){
   # results data frame
   res <- data.frame(name1 = vector("character"),
                     name2 = vector("character"),
                     t_test = vector("numeric"))
   
   # find t tests
-  t_mat <- t.test(merged_data)
+  t_mat <- t.test(df, use = use)
   
   # find pairs with statistically significant t tests
   n <- nrow(t_mat)
