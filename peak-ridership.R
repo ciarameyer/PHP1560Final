@@ -80,20 +80,6 @@ peak %>%
        x = "Hour of Day", y = "Count") +
   theme_minimal()
 
-# peak vs off peak comparison of single demo. (Seniors)
-bind_rows(
-  peak_summary  %>% mutate(period = "Peak"),
-  offpeak_summary %>% mutate(period = "Off-Peak")
-) %>%
-  ggplot(aes(x = factor(Route), y = Senior, fill = period)) +
-  geom_col(position = "dodge") +
-  labs(
-    title = "Senior Ridership: Peak vs Off-Peak",
-    x = "Route", y = "Count or Proportion", fill = "Period"
-  ) +
-  theme_minimal() +
-  theme(axis.text.x = element_text(angle = 60, hjust = 1))
-
 ## LOOKING @ NUMBERS, WONT USE --------------------------------------------
 
 ## peak + peak times of day

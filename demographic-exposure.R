@@ -2,6 +2,8 @@
 
 library(tidyverse)
 
+# REMINDER!! do the roxygen function descriptions
+
 summarize_ridership_demographics <- function(ridership_df) {
   
 # classify demographic groups
@@ -114,3 +116,18 @@ off_summary <- result$offpeak_summary[[1]]
 
 result$plots[[1]]$peak_plot[[1]]
 result$plots[[1]]$offpeak_plot[[1]]
+
+# peak vs off peak comparison of single demo. (Seniors)
+# NOTE: change to only include the top most-used routes
+bind_rows(
+  peak_summary  %>% mutate(period = "Peak"),
+  off_summary %>% mutate(period = "Off-Peak")
+) %>%
+  ggplot(aes(x = factor(Route), y = Senior, fill = period)) +
+  geom_col(position = "dodge") +
+  labs(
+    title = "Senior Ridership: Peak vs Off-Peak",
+    x = "Route", y = "Count or Proportion", fill = "Period"
+  ) +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))
