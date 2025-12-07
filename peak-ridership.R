@@ -80,6 +80,7 @@ peak %>%
        x = "Hour of Day", y = "Count") +
   theme_minimal()
 
+
 ## LOOKING @ NUMBERS, WONT USE --------------------------------------------
 
 ## peak + peak times of day
@@ -135,7 +136,6 @@ night <- ridership_data %>%
   mutate(hour = hour(mdy_hm(Time))) %>%
   filter(hour > 0 & hour < 6)
   
-
 ## times of the week
 weekdays <- ridership_data %>%
   subset(Day.of.Week %in% c("Mon","Tue", "Wed", "Thu", "Fri"))

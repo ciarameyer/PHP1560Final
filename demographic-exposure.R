@@ -49,14 +49,24 @@ summarize_ridership_demographics <- function(ridership_df) {
   offpeak_df <- ridership_df %>% filter(Off.Peak == 1)
   
   # classify demographics
+  full_df <- classify_groups(ridership_df)
   peak_df <- classify_groups(peak_df)
   offpeak_df <- classify_groups(offpeak_df)
   
   # summarize by route, raw numbers for visualization
+  all_summary <- summarize_routes(full_df)
   peak_summary <- summarize_routes(peak_df)
   offpeak_summary <- summarize_routes(offpeak_df)
   
   # summarize by route (proportion tables)
+  all_prop_summary <- summarize_routes(full_df) %>%
+    rowwise() %>%
+    mutate(
+      total = sum(c_across(-Route)),
+      across(-c(Route, total), ~ .x / total)
+    ) %>%
+    ungroup() %>%
+    select(-total)
   peak_prop_summary <- summarize_routes(peak_df) %>%
     rowwise() %>%
     mutate(
@@ -98,6 +108,7 @@ summarize_ridership_demographics <- function(ridership_df) {
 
   # return tidy output
   tibble(
+    overall_summary = list(all_prop_summary),
     peak_summary = list(peak_prop_summary),
     offpeak_summary = list(offpeak_prop_summary),
     plots = list(
@@ -111,6 +122,7 @@ summarize_ridership_demographics <- function(ridership_df) {
 
 result <- summarize_ridership_demographics(ridership_data)
 
+overall_summary <- result$overall_summary[[1]]
 peak_summary <- result$peak_summary[[1]]
 off_summary <- result$offpeak_summary[[1]]
 
