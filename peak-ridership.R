@@ -9,6 +9,7 @@
 
 library(lubridate)
 library(tidyverse)
+library(hms)
 
 add_time_of_day <- function(df) {
   df %>%
