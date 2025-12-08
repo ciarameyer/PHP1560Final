@@ -27,6 +27,7 @@ route_performance <- function(data = otp_data_updated){
               
 }
 
-route_performance_results <- route_performance(otp_data_updated)
-  
+route_performance_peak <- route_performance(otp_data_peak)
+route_performance_overall <- route_performance(otp_data_updated)
+route_performance_off_peak <- route_performance(otp_data_off_peak)
 

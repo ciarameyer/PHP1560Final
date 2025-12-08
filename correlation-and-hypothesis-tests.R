@@ -24,6 +24,11 @@ correlations <- function(df, threshold = 0.6, use = "everything"){
       }
     }
   }
+  res <- res %>%
+    filter(name1 == "Share_on_time" | name2 == "Share_on_time" | 
+             name1 == "Share_early" | name2 == "Share_early" |
+             name1 == "Share_late" | name2 == "Share_late") %>%
+    filter(name1 != "Route" & name2 != "Route")
   return(res)
 }
 
@@ -40,20 +45,27 @@ t_tests <- function(df, threshold = 0.05, use = "everything"){
                     name2 = vector("character"),
                     t_test = vector("numeric"))
   
-  
+  n <- ncol(df)
   # find t tests and pairs with statistically significant t tests
   for( i in 1:(n-1)){
     for(j in (i + 1):n){
-      test_result <- t.test(df[[i]], df[[j]], use = use)
+      test_result <- t.test(df[[i]], df[[j]])
      if(test_result$p.value < threshold){
-        res <- add_row(res,
+        res <- rbind(res, data.frame(
                        name1 = colnames(df)[i],
                        name2 = colnames(df)[j],
-                       t_test_p_value = test_result$p.value)
+                       t_test = test_result$p.value))
       }
     }
   }
+  res <- res %>%
+    filter(name1 == "Share_on_time" | name2 == "Share_on_time" | 
+             name1 == "Share_early" | name2 == "Share_early" |
+             name1 == "Share_late" | name2 == "Share_late") %>%
+    filter(name1 != "Route" & name2 != "Route")
   return(res)
 }
 
-t_tests_data <- t_tests(merged_data_peak)
+t_tests_peak <- t_tests(merged_data_peak)
+t_tests_off_peak <- t_tests(merged_data_off_peak)
+t_tests_overall <- t_tests(merged_data)

@@ -80,6 +80,29 @@ peak %>%
        x = "Hour of Day", y = "Count") +
   theme_minimal()
 
+# ciara: splitting otp data by peak and non-peak times
+# via RIPTA website peak is 7am-9am and 3pm-6pm on weekdays
+
+split_time <- str_split_fixed(otp_data_updated$Scheduled.Time, " ", 2)
+otp_data_updated$Scheduled_Date <- split_time[,1]
+otp_data_updated$Scheduled_Time <- split_time[,2]
+otp_data_updated$Scheduled_Date <- weekdays(as.Date(otp_data_updated$Scheduled_Date))
+otp_data_updated <- otp_data_updated %>%
+  filter(Scheduled_Time != "" & !is.na(Scheduled_Time)) %>%
+  mutate(Scheduled_Time = as_hms(Scheduled_Time))
+otp_data_peak <- otp_data_updated %>% 
+  filter(Scheduled_Date != "Saturday" & Scheduled_Date != "Sunday") %>% 
+  filter(between(Scheduled_Time, as_hms("07:00:00"), as_hms("09:00:00")) | 
+           between(Scheduled_Time, as_hms("15:00:00"), as_hms("18:00:00")))
+otp_data_off_peak <- otp_data_updated %>% 
+  filter(Scheduled_Date == "Saturday" | Scheduled_Date == "Sunday" | 
+           (Scheduled_Date != "Saturday" & Scheduled_Date != "Sunday" & 
+              (Scheduled_Time < as_hms("07:00:00") |  
+                 between(Scheduled_Time, as_hms("09:00:00"), as_hms("15:00:00")) |
+                           Scheduled_Time > as_hms("18:00:00"))))
+
+
+
 
 ## LOOKING @ NUMBERS, WONT USE --------------------------------------------
 
