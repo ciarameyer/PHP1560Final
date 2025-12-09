@@ -4,10 +4,10 @@
 library(tidyverse)
 library(ggplot2)
 
-# ridership_data <- read.csv("~/Downloads/ridership_simulated.csv")
-# otp_data <- read.csv("~/Downloads/otp_simulated.csv")
-ridership_data <- read.csv("~/Desktop/PHP1560/final.data/ridership_simulated.csv")
-otp_data <- read.csv("~/Desktop/PHP1560/final.data/otp_simulated (2).csv")
+ridership_data <- read.csv("~/Downloads/ridership_simulated.csv")
+otp_data <- read.csv("~/Downloads/otp_simulated.csv")
+# ridership_data <- read.csv("~/Desktop/PHP1560/final.data/ridership_simulated.csv")
+# otp_data <- read.csv("~/Desktop/PHP1560/final.data/otp_simulated (2).csv")
 
 # arranging in order of routes
 otp_data_updated <- otp_data %>% 
@@ -22,8 +22,35 @@ unique(otp_data_updated$Route)
 unique(ridership_data$Route)
 
 # mutating OTP data to only include needed variables 
-otp_data_updated <- subset(otp_data, select = - c(Driver.ID, Trip, Stop, Stop.Sequence, 
-                                          StopLat, StopLng)) 
+otp_data_updated <- subset(
+  otp_data,
+  select = -c(Driver.ID, Trip, Stop, Stop.Sequence, StopLat, StopLng)
+)
+
+# derive peak/off-peak OTP subsets for reuse across analyses
+split_time <- str_split_fixed(otp_data_updated$Scheduled.Time, " ", 2)
+otp_data_updated$Scheduled_Date <- split_time[, 1]
+otp_data_updated$Scheduled_Time <- split_time[, 2]
+otp_data_updated$Scheduled_Date <- weekdays(as.Date(otp_data_updated$Scheduled_Date))
+otp_data_updated <- otp_data_updated %>%
+  filter(Scheduled_Time != "" & !is.na(Scheduled_Time)) %>%
+  mutate(Scheduled_Time = as_hms(Scheduled_Time))
+
+otp_data_peak <- otp_data_updated %>%
+  filter(Scheduled_Date != "Saturday" & Scheduled_Date != "Sunday") %>%
+  filter(
+    between(Scheduled_Time, as_hms("07:00:00"), as_hms("09:00:00")) |
+      between(Scheduled_Time, as_hms("15:00:00"), as_hms("18:00:00"))
+  )
+
+otp_data_off_peak <- otp_data_updated %>%
+  filter(
+    Scheduled_Date == "Saturday" | Scheduled_Date == "Sunday" |
+      (Scheduled_Date != "Saturday" & Scheduled_Date != "Sunday" &
+         (Scheduled_Time < as_hms("07:00:00") |
+            between(Scheduled_Time, as_hms("09:00:00"), as_hms("15:00:00")) |
+            Scheduled_Time > as_hms("18:00:00")))
+  )
 
 # mutating ridership data to only include needed variables 
 ridership_data_updated <- subset(ridership_data, select = c(Time, Day.of.Week, Route, 
