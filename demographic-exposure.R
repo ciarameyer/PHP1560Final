@@ -42,18 +42,13 @@ summarize_ridership_demographics <- function(ridership_df) {
   peak_df <- ridership_df %>% filter(Off.Peak == 0)
   offpeak_df <- ridership_df %>% filter(Off.Peak == 1)
 
-  # classify demographics for each subset
-  full_df <- classify_groups(ridership_df)
-  peak_df <- classify_groups(peak_df)
-  offpeak_df <- classify_groups(offpeak_df)
-
   # summarize by route (counts for visuals)
-  all_summary <- summarize_routes(full_df)
+  all_summary <- summarize_routes(ridership_df)
   peak_summary <- summarize_routes(peak_df)
   offpeak_summary <- summarize_routes(offpeak_df)
 
   # summarize by route (proportions)
-  all_prop_summary <- summarize_routes(full_df) %>%
+  all_prop_summary <- summarize_routes(ridership_df) %>%
     rowwise() %>%
     mutate(
       total = sum(c_across(-Route)),
@@ -79,7 +74,7 @@ summarize_ridership_demographics <- function(ridership_df) {
     select(-total)
 
   # find top 5 routes overall by total ridership (all riders)
-  top_routes <- full_df %>%
+  top_routes <- ridership_df %>%
     count(Route, name = "total_rides") %>%
     slice_max(total_rides, n = 5, with_ties = FALSE) %>%
     pull(Route)
