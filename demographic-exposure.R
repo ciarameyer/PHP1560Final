@@ -22,39 +22,18 @@ library(tidyverse)
 
 summarize_ridership_demographics <- function(ridership_df) {
   # classify demographic groups
-  classify_groups <- function(df) {
-    df %>%
-      mutate(
-        HS = case_when(
-          !is.na(High.School) & High.School != "None" ~ 1,
-          TRUE ~ 0
-        ),
-        College = case_when(
-          College != "None" ~ 1,
-          TRUE ~ 0
-        ),
-        Senior = case_when(
-          Type == "Senior" ~ 1,
-          TRUE ~ 0
-        ),
-        Disabled = case_when(
-          Type == "Disabled" ~ 1,
-          TRUE ~ 0
-        ),
-        Low_Income = Low.Income
-      )
-  }
 
   # summarize demographic counts by route
   summarize_routes <- function(df) {
     df %>%
       group_by(Route) %>%
       summarise(
-        HS = sum(HS, na.rm = TRUE),
-        College = sum(College, na.rm = TRUE),
+        High_School = sum(High_School, na.rm = TRUE),
+        Brown_RISD = sum(Brown_RISD, na.rm = TRUE),
         Senior = sum(Senior, na.rm = TRUE),
         Disabled = sum(Disabled, na.rm = TRUE),
         Low_Income = sum(Low_Income, na.rm = TRUE),
+        Other_College = sum(Other_College, na.rm = TRUE),
         .groups = "drop"
       )
   }
@@ -160,7 +139,7 @@ summarize_ridership_demographics <- function(ridership_df) {
   )
 }
 
-result <- summarize_ridership_demographics(ridership_data)
+result <- summarize_ridership_demographics(ridership_data_updated)
 
 overall_summary <- result$overall_summary[[1]]
 peak_summary <- result$peak_summary[[1]]
