@@ -57,7 +57,7 @@ otp_data_off_peak <- otp_data_updated %>%
 # mutating ridership data to only include needed variables 
 ridership_data_updated <- subset(ridership_data, select = c(Time, Day.of.Week, Route, 
                                                     Type, College,
-                                                    High.School, Low.Income))
+                                                    High.School, Low.Income, Off.Peak))
 
 ridership_data_updated <- ridership_data_updated  %>%
   mutate(Child = if_else(Type == "Child", 1, 0)) %>%
@@ -71,7 +71,7 @@ ridership_data_updated <- ridership_data_updated  %>%
 ridership_data_updated  <- subset(ridership_data_updated, select = c(Time, Day.of.Week, Route, 
                                                     Low.Income, Child, Senior, 
                                                     Disabled, Brown_RISD, 
-                                                    Other_College, High_School))
+                                                    Other_College, High_School, Off.Peak))
 
 # visualize percentage of overall riders who fit categories
 
