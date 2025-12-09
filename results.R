@@ -1,6 +1,6 @@
 # Step 7: Results (visualizations)
 library(tidyverse)
-source("~/Documents/GitHub/PHP1560Final/merging-outputs-for-final-analysis.R")
+source("~/Desktop/GitHub/PHP1560Final/merging-outputs-for-final-analysis.R")
 
 
 # Identify 5 most on-time and 5 least on-time routes (overall)
@@ -52,3 +52,9 @@ plot_bottom5_on_time_demographics <- on_time_comparison %>%
   ) +
   theme_minimal() +
   theme(axis.text.x = element_text(angle = 60, hjust = 1))
+
+
+ggsave("bottom_five.png", plot = plot_bottom5_on_time_demographics, 
+       width = 6, height = 4, dpi = 300)
+ggsave("top_five.png", plot = plot_top5_on_time_demographics, 
+       width = 6, height = 4, dpi = 300)
