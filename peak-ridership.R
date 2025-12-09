@@ -1,6 +1,3 @@
-library(lubridate)
-library(tidyverse)
-library(hms)
 
 #' Add hour buckets and labeled time-of-day to a ridership data frame.
 #'
