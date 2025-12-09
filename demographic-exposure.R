@@ -29,7 +29,7 @@ summarize_ridership_demographics <- function(ridership_df) {
           !is.na(High.School) & High.School != "None" ~ 1,
           TRUE ~ 0
         ),
-        Brown_RISD = case_when(
+        College = case_when(
           College != "None" ~ 1,
           TRUE ~ 0
         ),
@@ -51,7 +51,7 @@ summarize_ridership_demographics <- function(ridership_df) {
       group_by(Route) %>%
       summarise(
         HS = sum(HS, na.rm = TRUE),
-        College = sum(Brown_RISD, na.rm = TRUE),
+        College = sum(College, na.rm = TRUE),
         Senior = sum(Senior, na.rm = TRUE),
         Disabled = sum(Disabled, na.rm = TRUE),
         Low_Income = sum(Low_Income, na.rm = TRUE),
