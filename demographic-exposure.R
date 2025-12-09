@@ -32,7 +32,7 @@ summarize_ridership_demographics <- function(ridership_df) {
         Brown_RISD = sum(Brown_RISD, na.rm = TRUE),
         Senior = sum(Senior, na.rm = TRUE),
         Disabled = sum(Disabled, na.rm = TRUE),
-        Low_Income = sum(Low_Income, na.rm = TRUE),
+        Low.Income = sum(Low.Income, na.rm = TRUE),
         Other_College = sum(Other_College, na.rm = TRUE),
         .groups = "drop"
       )

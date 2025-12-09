@@ -6,10 +6,10 @@ library(ggplot2)
 library(hms)
 library(lubridate)
 
-ridership_data <- read.csv("~/Downloads/ridership_simulated.csv")
-otp_data <- read.csv("~/Downloads/otp_simulated.csv")
-# ridership_data <- read.csv("~/Desktop/PHP1560/final.data/ridership_simulated.csv")
-# otp_data <- read.csv("~/Desktop/PHP1560/final.data/otp_simulated (2).csv")
+# ridership_data <- read.csv("~/Downloads/ridership_simulated.csv")
+# otp_data <- read.csv("~/Downloads/otp_simulated.csv")
+ ridership_data <- read.csv("~/Desktop/PHP1560/final.data/ridership_simulated.csv")
+ otp_data <- read.csv("~/Desktop/PHP1560/final.data/otp_simulated (2).csv")
 
 # arranging in order of routes
 otp_data_updated <- otp_data %>% 
